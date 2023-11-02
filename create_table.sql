@@ -23,8 +23,8 @@ CREATE TABLE products (
     price FLOAT NOT NULL,
     stock INT NOT NULL DEFAULT 0,
     qty_sold INT NOT NULL DEFAULT 0,
-    last_updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories (id)
+    last_updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE SET NULL
 );
 
 -- Create Table Orders
@@ -33,7 +33,7 @@ CREATE TABLE orders (
     customer_id CHAR(50) NOT NULL,
     order_date DATE NOT NULL DEFAULT CURRENT_DATE,
     total_purchase FLOAT NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES customers (id)
+    FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE
 );
 
 -- Create Table Order Details
@@ -43,6 +43,6 @@ CREATE TABLE order_details (
     product_id CHAR(50) NOT NULL,
     quantity INT NOT NULL DEFAULT 1,
     sum_price FLOAT NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES orders (id),
-    FOREIGN KEY (product_id) REFERENCES products (id)
+    FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE
 );
